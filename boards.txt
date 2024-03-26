@@ -1,0 +1,68 @@
+#
+# Do not create pull-requests for this file only, CI will not accept them.
+# You *must* edit/modify/run boards.txt.py to regenerate boards.txt.
+# All modified files after running with option "--allgen" must be included in the pull-request.
+#
+
+menu.cpu_frq=CPU Frequency
+menu.opt=Build mode
+menu.upload_speed=Upload Speed
+menu.erase=Erase Flash
+
+##############################################################
+w801.name=w801
+w801.upload.tool=serial_upload
+w801.upload.protocol=xmodem
+w801.upload.maximum_size=2048576
+w801.upload.maximum_data_size=294912
+w801.build.arch=xt804
+w801.build.mcu=ck804ef
+w801.build.board=w801
+w801.build.core=w800
+w801.build.variant=w801
+w801.build.mcpu=ck804ef
+w801.serial.disableRTS=true
+#---------------------------------------
+# CPU Frequency
+w801.menu.cpu_frq.240MHZ=240MHZ
+w801.menu.cpu_frq.240MHZ.build.f_cpu=240000000
+w801.menu.cpu_frq.160MHZ=160MHZ
+w801.menu.cpu_frq.160MHZ.build.f_cpu=160000000
+w801.menu.cpu_frq.80MHZ=80MHZ
+w801.menu.cpu_frq.80MHZ.build.f_cpu=80000000
+w801.menu.cpu_frq.40MHZ=40MHZ
+w801.menu.cpu_frq.40MHZ.build.f_cpu=40000000
+w801.menu.cpu_frq.2MHZ=2MHZ
+w801.menu.cpu_frq.2MHZ.build.f_cpu=2000000
+#---------------------------------------
+# Release /Optimise
+w801.menu.opt.default=Default (-O2 -g3)
+#w801.menu.opt.release.build.flags.optimize=-Os -flto
+w801.menu.opt.maxspeed=Maximum speed (-O3)
+w801.menu.opt.maxspeed.build.flags.optimize=-O3
+w801.menu.opt.minsize=Minimum code size ( -Os)
+w801.menu.opt.minsize.build.flags.optimize=-Os
+w801.menu.opt.debug=Debug (-g)
+w801.menu.opt.debug.build.flags.optimize=-Og
+
+#---------------------------------------
+# Upload Speed
+w801.menu.upload_speed.baud115200=115200
+w801.menu.upload_speed.baud115200.upload.speed=115200
+w801.menu.upload_speed.baud460800=460800
+w801.menu.upload_speed.baud460800.upload.speed=460800
+w801.menu.upload_speed.baud921600=921600
+w801.menu.upload_speed.baud921600.upload.speed=921600
+w801.menu.upload_speed.baud1000000=1000000
+w801.menu.upload_speed.baud1000000.upload.speed=1000000
+w801.menu.upload_speed.baud2000000=2000000
+w801.menu.upload_speed.baud2000000.upload.speed=2000000
+#---------------------------------------
+# Erase Flash
+w801.menu.erase.yes=erase all flash
+w801.menu.erase.yes.erase.flash=all
+w801.menu.erase.no=no erase
+w801.menu.erase.no.erase.flash=none
+##############################################################
+
+
