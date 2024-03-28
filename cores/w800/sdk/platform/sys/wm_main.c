@@ -274,7 +274,7 @@ int main(void)
 	TaskStartStk = tls_mem_alloc(sizeof(u32)*TASK_START_STK_SIZE);
 	if (TaskStartStk)
     {
-        tls_os_task_create(&tststarthdl, NULL,
+        tls_os_task_create(&tststarthdl, "Ardu_Task",
                            task_start,
                            (void *)0,
                            (void *)TaskStartStk,          /* 任务栈的起始地址 */

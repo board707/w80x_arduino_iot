@@ -412,7 +412,7 @@ void ping_test_create_task(void)
     TaskPingStk = (u32 *)tls_mem_alloc(TASK_PING_STK_SIZE * sizeof(u32));
     if (TaskPingStk)
     {
-        err = tls_os_task_create(NULL, NULL, ping_test_task,
+        err = tls_os_task_create(NULL, "Ping", ping_test_task,
                            (void *)0, (void *)TaskPingStk,
                            TASK_PING_STK_SIZE * sizeof(u32),
                            TASK_PING_PRIO, 0);

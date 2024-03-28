@@ -59,7 +59,7 @@ void CreateThroughputTask(void)
 
 	            tls_os_queue_create(&tht_q, THT_QUEUE_SIZE);
 
-	            tls_os_task_create(NULL, NULL,
+	            tls_os_task_create(NULL, "Iperf_THT",
 	                               tht_task,
 	                               (void *)gThtSys,
 	                               (void *)ThtTaskStk,

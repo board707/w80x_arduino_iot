@@ -1568,7 +1568,7 @@ void tls_oneshot_task_create(void)
 		memset(OneshotTaskStk, 0, sizeof(u32)*ONESHOT_TASK_SIZE);
 		if (OneshotTaskStk)
 		{
-			err = tls_os_task_create(NULL, NULL,
+			err = tls_os_task_create(NULL, "OneShot",
 					tls_oneshot_task_handle,
 					NULL,
 					(void *)OneshotTaskStk, 		 /* 任务栈的起始地址 */

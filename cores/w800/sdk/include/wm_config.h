@@ -16,15 +16,15 @@
 
 #define WM_CONFIG_DEBUG_UART1							CFG_OFF/*PRINTF PORT USE UART1*/
 /**Driver Support**/
-#define TLS_CONFIG_HS_SPI          						CFG_ON /*High Speed SPI*/
-#define TLS_CONFIG_LS_SPI          						CFG_ON /*Low Speed SPI*/
+#define TLS_CONFIG_HS_SPI          						CFG_OFF /*High Speed SPI*/
+#define TLS_CONFIG_LS_SPI          						CFG_OFF /*Low Speed SPI*/
 #define TLS_CONFIG_UART									CFG_ON  /*UART*/
 
 /**Only Factory Test At Command**/
 #define TLS_CONFIG_ONLY_FACTORY_ATCMD                   CFG_OFF
 
 /**Host Interface&Command**/
-#define TLS_CONFIG_HOSTIF 								CFG_ON
+#define TLS_CONFIG_HOSTIF 								CFG_OFF
 #define TLS_CONFIG_AT_CMD								(CFG_ON && TLS_CONFIG_HOSTIF)
 #define TLS_CONFIG_RI_CMD								(CFG_ON && TLS_CONFIG_HOSTIF)
 #define TLS_CONFIG_RMMS									(CFG_ON && TLS_CONFIG_HOSTIF)

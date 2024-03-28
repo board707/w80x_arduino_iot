@@ -3,6 +3,9 @@
 
 #define HIGH 			0x1
 #define LOW  			0x0
+#define LSBFIRST		0x0
+#define MSBFIRST		0x1
+
 
 // Режимы ввода/вывода GPIO
 
