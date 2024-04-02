@@ -26,7 +26,7 @@
 #ifndef _SOFTWAREI2C_H_
 #define _SOFTWAREI2C_H_
 
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "Wire_base.h"
 
 /*

@@ -1,7 +1,6 @@
 #ifndef _HARDWAREI2C_H_
 #define _HARDWAREI2C_H_
 
-#include "Arduino.h"
 #include "Wire_base.h"
 
 

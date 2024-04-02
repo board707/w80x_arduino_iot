@@ -1,4 +1,3 @@
-#include "Arduino.h"
 #include "HardwareI2C.h"
 
 extern "C" void tls_i2c_init(u32 freq);

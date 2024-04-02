@@ -2,7 +2,16 @@
 #ifndef _WIREBASE_H_
 #define _WIREBASE_H_
 
-#include "Arduino.h"
+#ifdef __cplusplus
+extern "C"  {
+#endif
+
+#include "wm_include.h"
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #define  GETACK        1                      // get ack                        
 #define  GETNAK        0                      // get nak   

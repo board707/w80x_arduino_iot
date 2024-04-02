@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include "pins_arduino.h"
 #include "Interrupts.h"
+#include "Common.h"
 
 extern "C" int _delay(int us); //Используем библиотечную функцию задержки из iperf_timer.c
 
@@ -284,7 +285,36 @@ int analogRead(uint8_t pin) // Возвращаемая величина в ми
 	return result;
 }
 
-int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max)
+// Добавлено для совместимости wiring shiftOut/shiftIn
+
+uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
+	uint8_t value = 0;
+	uint8_t i;
+
+	for (i = 0; i < 8; ++i) {
+		digitalWrite(clockPin, HIGH);
+		if (bitOrder == LSBFIRST)
+			value |= digitalRead(dataPin) << i;
+		else
+			value |= digitalRead(dataPin) << (7 - i);
+		digitalWrite(clockPin, LOW);
+	}
+	return value;
+}
+void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
 {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	uint8_t i;
+
+	for (i = 0; i < 8; i++)  {
+		if (bitOrder == LSBFIRST) {
+			digitalWrite(dataPin, val & 1);
+			val >>= 1;
+		} else {	
+			digitalWrite(dataPin, (val & 128) != 0);
+			val <<= 1;
+		}
+			
+		digitalWrite(clockPin, HIGH);
+		digitalWrite(clockPin, LOW);		
+	}
 }

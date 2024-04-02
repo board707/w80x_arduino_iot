@@ -5,7 +5,7 @@ extern "C"
 }
 #endif
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include "WString.h"
 #include "stdlib_noniso.h"
 

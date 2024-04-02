@@ -1,10 +1,10 @@
 #ifndef _SPI_H_INCLUDED
 #define _SPI_H_INCLUDED
 
-#include "Arduino.h"
+
 #include <stdio.h>
-
-
+#include "pins_arduino.h"
+#include "Common.h"
 
 extern "C" {
 #include "wm_hostspi.h"
@@ -20,6 +20,7 @@ extern "C" {
 #define SPI_MODE1 0x01
 #define SPI_MODE2 0x02
 #define SPI_MODE3 0x03
+
 
 class SPISettings {
 public:
