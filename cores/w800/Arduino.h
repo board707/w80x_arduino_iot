@@ -3,6 +3,7 @@
 
 #define HIGH 			0x1
 #define LOW  			0x0
+
 #define LSBFIRST		0x0
 #define MSBFIRST		0x1
 
@@ -17,6 +18,10 @@
 #define PWM_OUT 		6
 
 #define UNUSED(X) (void)X 
+
+#define min(a,b) ((a)<(b)?(a):(b))
+#define max(a,b) ((a)>(b)?(a):(b))
+
 
 // Определения для триггера прерывания от GPIO
 
@@ -40,11 +45,12 @@ void attachInterrupt(uint8_t pin, gpio_irq_callback callback, uint8_t mode);
 void detachInterrupt(uint8_t pin);
 void arduino_gpio_isr( void *context);
 
-//typedef enum {
-//  LSBFIRST = 0,
-//  MSBFIRST = 1,
-//} BitOrder;
+/*typedef enum {
+  LSBFIRST = 0,
+  MSBFIRST = 1,
+} BitOrder;*/
 
+typedef bool boolean;
 
 
 #ifdef __cplusplus
@@ -80,5 +86,7 @@ void delay(uint32_t ms);
 u32 micros();
 u32 millis();
 
-
+// 
+void yield();
+int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max);
 
