@@ -1,3 +1,5 @@
+#ifndef __INTERRUPTS_H__
+#define __INTERRUPTS_H__
 #ifdef __cplusplus
 extern "C"  {
 #endif
@@ -44,3 +46,5 @@ struct arduino_context {
 void attachInterrupt(uint8_t pin, gpio_irq_callback callback, uint8_t mode);
 void detachInterrupt(uint8_t pin);
 void arduino_gpio_isr( void *context);
+
+#endif

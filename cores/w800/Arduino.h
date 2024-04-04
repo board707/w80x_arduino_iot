@@ -1,3 +1,5 @@
+#ifndef __ARDUINO_H__
+#define __ARDUINO_H__
 #include "pins_arduino.h"
 
 #ifdef __cplusplus
@@ -99,3 +101,6 @@ extern "C" uint32_t millis();
 
 uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
+
+
+#endif

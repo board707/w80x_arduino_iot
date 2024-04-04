@@ -185,12 +185,12 @@ void delay(uint32_t ms)
 
 // Функции UPTIME
 
-u32 millis()
+uint32_t millis()
 {
 	return (micros()/1000);
 }
 
-u32 micros()
+uint32_t micros()
 {
 	return (tls_os_get_time()*1000/HZ) *1000;
 }

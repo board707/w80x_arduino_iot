@@ -1,6 +1,9 @@
 #ifndef _Debug_H_
 #define _Debug_H_
 
+#ifndef __DEBUG_H__
+#define __DEBUG_H__
+
 #include <string.h>
 
 #define DBG		0
@@ -10,4 +13,5 @@
 #define AR_DBG()
 #endif
 
+#endif
 #endif

@@ -1,4 +1,5 @@
-
+#ifndef __COMMON_H__
+#define __COMMON_H__
 #include "pins_arduino.h"
 // Определения для DIO
 #ifndef HIGH
@@ -38,9 +39,11 @@ typedef enum {
 #define max(a,b) ((a)>(b)?(a):(b))
 
 // Прототипы для функций задержек и UPTIME
-
+/*
 void delayMicroseconds(int us);
 void delay(uint32_t ms);
 
 u32 micros();
 u32 millis();
+*/
+#endif
