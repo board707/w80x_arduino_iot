@@ -21,3 +21,4 @@
 #define PWM_COUNT   (5U)  // number of PWM channels
 
 #endif /* _VARIANT_ARDUINO_W801_ */
+
