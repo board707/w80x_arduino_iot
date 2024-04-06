@@ -35,15 +35,34 @@ typedef enum {
   MSBFIRST = 1,
 } BitOrder;
 
+typedef uint8_t byte;
+typedef bool boolean;
+
+// Переопределение abs()
+#ifdef abs
+#undef abs
+#endif
+
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
+#define abs(x) ((x)>0?(x):-(x))
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define radians(deg) ((deg)*DEG_TO_RAD)
+#define degrees(rad) ((rad)*RAD_TO_DEG)
+#define sq(x) ((x)*(x))
 
-// Прототипы для функций задержек и UPTIME
-/*
-void delayMicroseconds(int us);
-void delay(uint32_t ms);
+//Битовые операции
+#define byte(w) ((uint8_t)(w))
+#define lowByte(w) ((uint8_t) ((w) & 0xff))
+#define highByte(w) ((uint8_t) ((w) >> 8))
 
-u32 micros();
-u32 millis();
-*/
+#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
+#define bitSet(value, bit) ((value) |= (1UL << (bit)))
+#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+
+#define maskSet(value, mask) ((value) |= (mask))
+#define maskClear(value, mask) ((value) &= ~(mask))
+
 #endif
