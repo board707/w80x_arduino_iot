@@ -29,7 +29,6 @@
 #define ANALOG_INPUT 	5
 #endif
 
-typedef bool boolean;
 typedef enum {
   LSBFIRST = 0,
   MSBFIRST = 1,
