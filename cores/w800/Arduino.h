@@ -89,7 +89,7 @@ extern "C" void arduino_gpio_isr( void *context);
 
 // Задержки
 
-extern "C" void delayMicroseconds(int us);
+extern "C" void delayMicroseconds(uint32_t us);
 extern "C" void delay(uint32_t ms);
 
 // UpTime

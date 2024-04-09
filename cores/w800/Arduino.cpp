@@ -173,14 +173,27 @@ void digitalToggle(uint8_t pin)
 
 // Функции задержки
 
-void delayMicroseconds(int us)
+void delayMicroseconds(uint32_t us)
 {
-	_delay(us);
+	uint8_t nops;
+
+		#if (F_CPU ==   240000000)
+			nops = 60;
+		#elif (F_CPU == 160000000)
+			nops = 40;
+		#elif (F_CPU ==  80000000)
+			nops = 20;
+		#elif (F_CPU ==  40000000)
+			nops = 10;
+		#elif (F_CPU ==   2000000)
+			nops = 1;
+		#endif
+	for (uint32_t i = 0; i < nops*us; i++) __NOP();
 }
 
 void delay(uint32_t ms) 
 {
-	_delay(ms*1000);
+	delayMicroseconds(ms*1000);
 }
 
 // Функции UPTIME
