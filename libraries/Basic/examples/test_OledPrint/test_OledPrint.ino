@@ -12,7 +12,8 @@ char Lorem_ipsum[] = "Lorem ipsum dolor sit amet, лорем ипсум доло
 
 void setup() {
     oled.init(); 
-	oled.clear();
+    Wire.setClock(800000);    
+    oled.clear();
 }
 
 void printScale(byte x) {

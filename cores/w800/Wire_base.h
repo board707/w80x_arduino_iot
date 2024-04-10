@@ -43,7 +43,7 @@ class WireBase {
     virtual uchar requestFrom(uchar addr, uint16_t len) {return 0;};
     virtual uchar read()  {return 0;};
     //uchar available() {return recv_len;}
-    virtual void setClock(int clockFrequency) {};// Установка тактовой частоты в герцах. Возможные значения от 100кГц до 1000кГц
+    virtual void setClock(u32 clockFrequency) {};// Установка тактовой частоты в герцах. Возможные значения от 100кГц до 1000кГц
 
 };
 #endif

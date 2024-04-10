@@ -1,6 +1,5 @@
 #include "HardwareI2C.h"
 
-#define I2C_CTRL_DISABLE	(0x0UL<<7)
 
 extern "C" void tls_i2c_init(u32 freq);
 extern "C" void wm_i2c_scl_config(enum tls_io_name io_name);
@@ -9,7 +8,6 @@ extern "C" void tls_i2c_stop(void);
 extern "C" void tls_i2c_write_byte(u8 data, u8 ifstart);
 extern "C" int tls_i2c_wait_ack(void);
 extern "C" uint8_t tls_i2c_read_byte(u8 ifack, u8 ifstop);
-extern "C" void tls_irq_disable(u8);
 
 HardwareI2C::HardwareI2C() {}
 HardwareI2C::~HardwareI2C() {}
@@ -22,10 +20,7 @@ void HardwareI2C::begin() {
 }
 
 void HardwareI2C::setClock(u32 clockFrequency) {
-	tls_reg_write32(HR_I2C_CTRL, I2C_CTRL_INT_DISABLE | I2C_CTRL_DISABLE);
-	tls_irq_disable(I2C_IRQn);
 	tls_i2c_init(clockFrequency);
-	
 }
 uchar HardwareI2C::beginTransmission(uchar addr) {
 

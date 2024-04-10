@@ -101,7 +101,7 @@ public:
      */
     int read();
 
-    void setClock(int clockFrequency);
+    void setClock(u32 clockFrequency);
 
     /*
      * Deinitialize the Wire interface.

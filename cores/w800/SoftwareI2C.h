@@ -78,7 +78,7 @@ class SoftwareI2C : public WireBase{
     uchar requestFrom(uchar addr, uint16_t len) override;
     uchar read() override;
     uchar available() {return recv_len;};
-    void setClock(int clockFrequency) override {};
+    void setClock(u32 clockFrequency) override {};
 	/* NOT IMPLEMENTED YET */
 	//setClock()
 	//onReceive()
