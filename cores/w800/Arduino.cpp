@@ -4,15 +4,28 @@
 #include "Interrupts.h"
 #include "Common.h"
 
-extern "C" int _delay(int us); //Используем библиотечную функцию задержки из iperf_timer.c
+#ifdef __cplusplus
+extern "C"  {
+#endif
 
-extern "C" void wm_pwm0_config(enum tls_io_name); 
-extern "C" void wm_pwm1_config(enum tls_io_name);
-extern "C" void wm_pwm2_config(enum tls_io_name);
-extern "C" void wm_pwm3_config(enum tls_io_name);
-extern "C" void wm_pwm4_config(enum tls_io_name);
-extern "C" void wm_adc_config(uint8_t Channel);
-extern "C" int adc_get_inputVolt(uint8_t channel);
+#include <csi_core.h>
+#include <wm_cpu.h>
+
+void wm_pwm0_config(enum tls_io_name); 
+void wm_pwm1_config(enum tls_io_name);
+void wm_pwm2_config(enum tls_io_name);
+void wm_pwm3_config(enum tls_io_name);
+void wm_pwm4_config(enum tls_io_name);
+void wm_adc_config(uint8_t Channel);
+int adc_get_inputVolt(uint8_t channel);
+
+uint32_t csi_coret_get_load (void);
+uint32_t csi_coret_get_value (void);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 const PIN_MAP pin_Map[] =
 {
@@ -171,29 +184,49 @@ void digitalToggle(uint8_t pin)
 	digitalWrite(pin, !digitalRead(pin));
 }
 
-// Функции задержки
+// Функции задержки - подсмотрено у nvv13 :)
 
 void delayMicroseconds(uint32_t us)
 {
-	uint8_t nops;
+	
+	if (us > 1000)
+	{
+		delay(us / 1000);
+		us = us % 1000;
+	}
+	if (us == 0) return;
 
-		#if (F_CPU ==   240000000)
-			nops = 60;
-		#elif (F_CPU == 160000000)
-			nops = 40;
-		#elif (F_CPU ==  80000000)
-			nops = 20;
-		#elif (F_CPU ==  40000000)
-			nops = 10;
-		#elif (F_CPU ==   2000000)
-			nops = 1;
-		#endif
-	for (uint32_t i = 0; i < nops*us; i++) __NOP();
+  uint32_t cnt,cur,start,load;
+  tls_sys_clk sysclk;
+  tls_sys_clk_get (&sysclk);
+  cnt = sysclk.cpuclk * us;
+  load = csi_coret_get_load ();
+  start = csi_coret_get_value ();
+
+  while (1)
+    {
+      cur = csi_coret_get_value ();
+
+      if (start > cur)
+        {
+          if (start - cur >= cnt)
+            {
+              return;
+            }
+        }
+      else
+        {
+          if (load - cur + start > cnt)
+            {
+              return;
+            }
+        }
+    }
 }
 
 void delay(uint32_t ms) 
 {
-	delayMicroseconds(ms*1000);
+	do {delayMicroseconds(1000);} while ((--ms) >0);
 }
 
 // Функции UPTIME
