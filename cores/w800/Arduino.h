@@ -74,13 +74,6 @@ uint8_t digitalRead(uint8_t pin);
 void analogWrite(uint8_t pin, uint8_t val);
 int analogRead(uint8_t pin);
 
-// Прототипы для скетча Ардуино
-
-void setup(void);
-void loop(void);
-
-
-
 // Прерывания GPIO
 
 extern "C" void attachInterrupt(uint8_t pin, void(*)(), uint8_t mode);

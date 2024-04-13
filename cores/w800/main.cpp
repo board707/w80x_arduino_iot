@@ -1,13 +1,16 @@
 
-#include "Arduino.h"
-
-extern "C" void __cxa_pure_virtual() { while (1); }
+extern  void setup();
+extern  void loop();
 
 #ifdef __cplusplus
 extern "C"  {
 #endif
 
-#include<wm_cpu.h>
+#include <wm_include.h>
+#include <wm_cpu.h>
+
+void __cxa_pure_virtual() { while (1); }
+
 
 void UserMain(void)
 {
@@ -33,7 +36,6 @@ void UserMain(void)
     }
 
 }
-
 #ifdef __cplusplus
 }
 #endif
