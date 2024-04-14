@@ -291,47 +291,12 @@ void Lcd_Clear(uint16_t Color)
 {
     uint32_t width  = _width;
     uint32_t height = _height;
-	uint16_t video_buf [V_BUF_SIZE] = {0};
-    //uint32_t block  = 150;
-
-    //uint32_t block_size = width*height*2/block;
-    //uint8_t* buf = (uint8_t*)malloc(block_size);
-    //for(uint32_t i = 0; i < block_size; i++){
-    //    if(i%2==0) buf[i] = Color>>8;
-    //    if(i%2==1) buf[i] = Color;
-    //}
-    //for(uint8_t i = 0; i < block; i++){
-    //    Lcd_Set_Window(0, height/block*i, width-1, height/block*(i+1)-1);
-    //    SPI.transfer((uint32_t *)buf, block_size);
-    //}
-    //free(buf);
-	//for(x=0;x < sizeof(Color)/2; x++)
-	//{	
-		//for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
-		Lcd_Set_Window(0, 0, (width - 1), (height - 1));
-
-		for (uint16_t i=0; i < (width*height)/V_BUF_SIZE; i++)
-		{
-			for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
-			SPI.transfer(video_buf, sizeof(video_buf));
-		}
-	//}
-	
+    uint16_t video_buf [V_BUF_SIZE] = {0};
+    Lcd_Set_Window(0, 0, (width - 1), (height - 1));
+    for (uint16_t i=0; i < (width*height)/V_BUF_SIZE; i++)
+    {
+	for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
+	SPI.transfer(video_buf, sizeof(video_buf));
+    }
 }
-/*void loop() {
-	uint8_t x=0;
-	uint16_t video_buf [V_BUF_SIZE] = {0};
-	for(x=0;x < sizeof(col)/2; x++)
-	{	
-		for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=col[x];
-		ST7735_AddrSet(0, 0, (scr_width - 1), (scr_height - 1));
-		ST7735_DATA;
-		ST7735_SELECT;
-		for (uint16_t i=0; i < (scr_width*scr_height)/V_BUF_SIZE; i++)
-		{
-			for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=col[x];
-			SPI.transfer(video_buf, sizeof(video_buf));
-		}
-		ST7735_UNSELECT;
-	}
-}*/
+
