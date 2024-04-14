@@ -82,13 +82,13 @@ extern "C" void arduino_gpio_isr( void *context);
 
 // Задержки
 
-extern "C" void delayMicroseconds(uint32_t us);
-extern "C" void delay(uint32_t ms);
+void delayMicroseconds(uint32_t us);
+void delay(uint32_t ms);
 
 // UpTime
 
-extern "C" uint32_t micros();
-extern "C" uint32_t millis();
+uint32_t micros();
+uint32_t millis();
 
 // Добавлено для совместимости shiftIn/shiftOut
 
