@@ -293,6 +293,7 @@ void Lcd_Clear(uint16_t Color)
     uint32_t height = _height;
     uint16_t video_buf [V_BUF_SIZE] = {0};
     Lcd_Set_Window(0, 0, (width - 1), (height - 1));
+    Lcd_Set_DC_CS(true, false);
     for (uint16_t i=0; i < (width*height)/V_BUF_SIZE; i++)
     {
 	for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
