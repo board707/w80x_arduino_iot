@@ -88,7 +88,7 @@ void _mutex_release (u32 *mutex)
 
 #endif
 
-#define     TASK_START_STK_SIZE         768     /* Size of each task's stacks (# of WORDs)  */
+#define     TASK_START_STK_SIZE       16*1024  //768     /* Size of each task's stacks (# of WORDs)  */
 /*If you want to delete main task after it works, you can open this MACRO below*/
 #define MAIN_TASK_DELETE_AFTER_START_FTR  1
 
