@@ -5,6 +5,17 @@
 3. В новом файле lv_conf.h включить контент. Это первый дефайн #if 0 Set it to "1" to enable content
 4. Установить опцию #define LV_COLOR_16_SWAP 1 
 */
+/*
+  Connect your TFT display like this:
+  TFT_VCC   to power
+  TFT_GND   to ground
+  TFT_CS    PB7
+  TFT_LED   to power 
+  TFT_SCL   PB15   
+  TFT_MOSI  PB17   
+  TFT_DC    PB8
+  TFT_RST   PB9
+*/
 
 #include "Arduino.h"
 #include "ILI9341.h"
@@ -47,8 +58,7 @@ void setup()
     
     Lcd_Init(TFT_DC, TFT_RST,TFT_CS);          /* TFT init. */
     Lcd_Orientation(1); /* Landscape orientation, flipped */
-    //Lcd_Clear(0);
-    
+ 
 	lv_init();
     lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * screenHeight/10 );
 

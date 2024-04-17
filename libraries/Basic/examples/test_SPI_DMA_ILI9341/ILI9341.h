@@ -89,10 +89,10 @@
 #define LCD_WIDTH        320
 #define LCD_HEIGHT       240
 
-#define V_BUF_SIZE			1024
+#define V_BUF_SIZE			7680
 
 uint16_t _width, _height;  //Ширина,высота после изменения ориентации
-uint8_t dc_pin,rst_pin,cs_pin;     // CS пин заземлен
+uint8_t dc_pin,rst_pin,cs_pin;     
 
 void Lcd_Hard_Reset(void) // Аппаратный сброс
 {
@@ -250,7 +250,7 @@ void Lcd_Init(uint8_t dc, uint8_t rst,uint8_t cs) {
 void Lcd_Orientation(uint8_t m) 
 {
   Lcd_Write_Com(ILI9341_MADCTL);
-  uint8_t rotation = m & 4;
+  uint8_t rotation = m & 3;
   switch (rotation) {
    case 0:
      Lcd_Write_Data(ILI9341_MADCTL_MX | ILI9341_MADCTL_RGB);
@@ -259,13 +259,13 @@ void Lcd_Orientation(uint8_t m)
      break;
    case 1:
      Lcd_Write_Data(ILI9341_MADCTL_MV | ILI9341_MADCTL_RGB);
-     _width  = LCD_HEIGHT;
-     _height = LCD_WIDTH;
+     _width  = LCD_WIDTH;
+     _height = LCD_HEIGHT;
      break;
   case 2:
     Lcd_Write_Data(ILI9341_MADCTL_MY | ILI9341_MADCTL_RGB);
-     _width  = LCD_WIDTH;
-     _height = LCD_HEIGHT;
+     _width  = LCD_HEIGHT;
+     _height = LCD_WIDTH;
     break;
    case 3:
      Lcd_Write_Data(ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_RGB);
@@ -284,6 +284,7 @@ void Lcd_Set_Window(uint16_t XS, uint16_t YS, uint16_t XE, uint16_t YE) {
 void Lcd_Draw_Rect(unsigned short x, unsigned short y, unsigned short width, unsigned short height, uint16_t *data)
 {
     Lcd_Set_Window(x, y, x + width - 1, y + height - 1);
+	Lcd_Set_DC_CS(true, false);
     SPI.transfer((uint32_t *)data, width * height*2);
 }
 
@@ -291,13 +292,12 @@ void Lcd_Clear(uint16_t Color)
 {
     uint32_t width  = _width;
     uint32_t height = _height;
-    uint16_t video_buf [V_BUF_SIZE] = {0};
-    Lcd_Set_Window(0, 0, (width - 1), (height - 1));
-    Lcd_Set_DC_CS(true, false);
-    for (uint16_t i=0; i < (width*height)/V_BUF_SIZE; i++)
-    {
-	for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
-	SPI.transfer(video_buf, sizeof(video_buf));
-    }
+	uint16_t video_buf [V_BUF_SIZE] = {0};
+		Lcd_Set_Window(0, 0, (width - 1), (height - 1));
+		Lcd_Set_DC_CS(true, false);
+		for (uint16_t i=0; i < (width*height)/V_BUF_SIZE; i++)
+		{
+			for(int j=0; j<V_BUF_SIZE;j++) video_buf[j]=Color;
+			SPI.transfer(video_buf, sizeof(video_buf));
+		}
 }
-

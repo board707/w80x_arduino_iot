@@ -92,7 +92,7 @@
 #define V_BUF_SIZE			7680
 
 uint16_t _width, _height;  //Ширина,высота после изменения ориентации
-uint8_t dc_pin,rst_pin,cs_pin;     // CS пин заземлен
+uint8_t dc_pin,rst_pin,cs_pin;     
 
 void Lcd_Hard_Reset(void) // Аппаратный сброс
 {
