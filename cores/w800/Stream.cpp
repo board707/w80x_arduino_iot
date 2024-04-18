@@ -9,10 +9,12 @@
  */
 #include "Stream.h"
 #include "Common.h"
-//#include "wiring_time.h"
 
 #define PARSE_TIMEOUT 1000  // default number of milli-seconds to wait
 #define NO_SKIP_CHAR  1  // a magic char not found in a valid ASCII numeric field
+
+extern uint32_t millis();
+extern void delay(uint32_t);
 
 // private method to read stream with timeout
 int Stream::timedRead() {

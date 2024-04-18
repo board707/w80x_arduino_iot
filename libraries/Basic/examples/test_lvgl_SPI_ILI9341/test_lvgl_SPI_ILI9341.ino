@@ -43,7 +43,7 @@ void my_disp_flush( lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *
 // Для работы с LVGL это обязательно, потому что мы не используем опцию LV_TICK_CUSTOM и не дергаем millis() из Arduino_Core 
 void vApplicationTickHook(void)
 {
-	lv_tick_inc(1);
+	lv_tick_inc(2); // 2 ms период тиков rtos
 }
 
 void setup()

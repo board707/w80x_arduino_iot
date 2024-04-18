@@ -15,8 +15,7 @@ extern "C"  {
 #define UNUSED(X) (void)X 
 
 #ifdef __cplusplus
-#include "Stream.h"
-//#include "HardwareSerial.h"
+#include "HardwareSerial.h"
 #endif
 
 // Режимы ввода/вывода GPIO
