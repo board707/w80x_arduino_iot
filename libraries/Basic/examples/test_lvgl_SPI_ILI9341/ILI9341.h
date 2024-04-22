@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#pragma once
 #include "SPI.h"
 
 #define BLACK                      0x0000

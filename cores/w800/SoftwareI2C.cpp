@@ -21,7 +21,7 @@
 */
 
 #include "Arduino.h"
-#include "Common.h"
+
 #include "SoftwareI2C.h"
 
 //extern "C" void set_loop(bool param); // from main.cpp

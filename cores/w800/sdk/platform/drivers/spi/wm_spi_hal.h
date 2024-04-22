@@ -79,10 +79,10 @@ static __inline void spi_set_chipselect_mode(u8 cs_active)
 
 	if (cs_active == 0) {
 		reg_val &= ~(0x01U << 2);
-		reg_val |= SPI_CS_LOW_;
+		reg_val |= SPI_CS_LOW;
 	} else if(cs_active == 1) {
 		reg_val &= ~(0x01U << 2);
-		reg_val |= SPI_CS_HIGH_;
+		reg_val |= SPI_CS_HIGH;
 	}
 
 	tls_reg_write32(HR_SPI_CHCFG_REG, reg_val);

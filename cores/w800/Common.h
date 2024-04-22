@@ -1,6 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 #include "pins_arduino.h"
+#define UNUSED(X) (void)X 
 // Определения для DIO
 #ifndef HIGH
 #define HIGH 			0x1
@@ -29,6 +30,7 @@
 #define ANALOG_INPUT 	5
 #endif
 
+typedef bool boolean;
 typedef enum {
   LSBFIRST = 0,
   MSBFIRST = 1,
@@ -36,6 +38,8 @@ typedef enum {
 
 typedef uint8_t byte;
 typedef bool boolean;
+
+
 
 // Переопределение abs()
 #ifdef abs

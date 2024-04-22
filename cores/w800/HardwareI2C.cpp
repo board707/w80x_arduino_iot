@@ -1,5 +1,5 @@
+#include "Arduino.h"
 #include "HardwareI2C.h"
-
 
 extern "C" void tls_i2c_init(u32 freq);
 extern "C" void wm_i2c_scl_config(enum tls_io_name io_name);
@@ -16,11 +16,12 @@ void HardwareI2C::begin() {
 	
     wm_i2c_scl_config(WM_IO_PA_01);
     wm_i2c_sda_config(WM_IO_PA_04);
-	tls_i2c_init(400000);		// По дефолту 400 кГц
+	tls_i2c_init(100000);		// По дефолту 100 кГц
 }
+void HardwareI2C::setClock(int clockFrequency) {
 
-void HardwareI2C::setClock(u32 clockFrequency) {
 	tls_i2c_init(clockFrequency);
+	
 }
 uchar HardwareI2C::beginTransmission(uchar addr) {
 

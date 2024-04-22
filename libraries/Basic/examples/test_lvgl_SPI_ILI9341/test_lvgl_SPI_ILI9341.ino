@@ -4,6 +4,7 @@
 2. Скопировать /libraries/lvgl/lv_conf_template.h в /libraries/lv_conf.h (т.е переименованием)
 3. В новом файле lv_conf.h включить контент. Это первый дефайн #if 0 Set it to "1" to enable content
 4. Установить опцию #define LV_COLOR_16_SWAP 1 
+5. Установить опцию #define LV_TICK_CUSTOM 1
 */
 /*
   Connect your TFT display like this:
@@ -24,8 +25,6 @@
 static const uint16_t screenWidth  = LCD_WIDTH;
 static const uint16_t screenHeight = LCD_HEIGHT;
 
-extern "C" void vApplicationTickHook(void);		// Перехват системных тиков FreeRTOS
-
 static lv_disp_draw_buf_t draw_buf ;
 static lv_color_t buf[ screenWidth * screenHeight / 10 ];
 
@@ -40,18 +39,12 @@ void my_disp_flush( lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *
   lv_disp_flush_ready( disp_drv );
 }
 
-// Для работы с LVGL это обязательно, потому что мы не используем опцию LV_TICK_CUSTOM и не дергаем millis() из Arduino_Core 
-void vApplicationTickHook(void)
-{
-	lv_tick_inc(2); // 2 ms период тиков rtos
-}
-
 void setup()
 {
     //Serial.begin( 115200 ); /* prepare for possible serial debug */
     
-    String LVGL_Arduino = "Hello Arduino! ";
-    LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
+    //String LVGL_Arduino = "Hello Arduino! ";
+    //LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
 
     //Serial.println( LVGL_Arduino );
     //Serial.println( "I am LVGL_Arduino" );

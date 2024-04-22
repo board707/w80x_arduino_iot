@@ -10,11 +10,11 @@
 #ifndef _WIRE_H_
 #define _WIRE_H_
 
+#include "Arduino.h"
 #include "HardwareI2C.h"
 #include "SoftwareI2C.h"
 
 #define BUFFER_LENGTH 64
-#define UNUSED(X) (void)X 
 
 #define Hard_I2C 0
 #define Soft_I2C 1
@@ -101,7 +101,7 @@ public:
      */
     int read();
 
-    void setClock(u32 clockFrequency);
+    void setClock(int clockFrequency);
 
     /*
      * Deinitialize the Wire interface.

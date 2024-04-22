@@ -1,26 +1,24 @@
 
-extern  void setup();
-extern  void loop();
+extern "C" void __cxa_pure_virtual() { while (1); }
+void setup();
+void loop();
+
 
 #ifdef __cplusplus
 extern "C"  {
 #endif
-
 #include <wm_include.h>
 #include <wm_cpu.h>
 
-void __cxa_pure_virtual() { while (1); }
-
-
 void UserMain(void)
 {
-	#if (F_CPU ==   240000000)
+	#if (F_CPU == 240000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_240M;
-	#elif (F_CPU == 160000000)
+	#elif (F_CPU == 1600000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_160M;
 	#elif (F_CPU == 80000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_80M;
-	#elif (F_CPU == 40000000)
+	#elif (F_CPU == 4000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_40M;
 	#elif (F_CPU == 2000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_2M;
@@ -36,6 +34,7 @@ void UserMain(void)
     }
 
 }
+
 #ifdef __cplusplus
 }
 #endif

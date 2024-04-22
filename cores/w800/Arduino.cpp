@@ -1,15 +1,11 @@
-
 #include "Arduino.h"
 #include "pins_arduino.h"
-#include "Interrupts.h"
-#include "Common.h"
+
 
 #ifdef __cplusplus
 extern "C"  {
 #endif
 
-#include <csi_core.h>
-#include <wm_cpu.h>
 
 void wm_pwm0_config(enum tls_io_name); 
 void wm_pwm1_config(enum tls_io_name);
@@ -19,13 +15,9 @@ void wm_pwm4_config(enum tls_io_name);
 void wm_adc_config(uint8_t Channel);
 int adc_get_inputVolt(uint8_t channel);
 
-uint32_t csi_coret_get_load (void);
-uint32_t csi_coret_get_value (void);
-
 #ifdef __cplusplus
 }
 #endif
-
 
 const PIN_MAP pin_Map[] =
 {
@@ -184,62 +176,6 @@ void digitalToggle(uint8_t pin)
 	digitalWrite(pin, !digitalRead(pin));
 }
 
-// Функции задержки - подсмотрено у nvv13 :)
-
-void delayMicroseconds(uint32_t us)
-{
-	
-	if (us > 1000)
-	{
-		delay(us / 1000);
-		us = us % 1000;
-	}
-	if (us == 0) return;
-
-  uint32_t cnt,cur,start,load;
-  tls_sys_clk sysclk;
-  tls_sys_clk_get (&sysclk);
-  cnt = sysclk.cpuclk * us;
-  load = csi_coret_get_load ();
-  start = csi_coret_get_value ();
-
-  while (1)
-    {
-      cur = csi_coret_get_value ();
-
-      if (start > cur)
-        {
-          if (start - cur >= cnt)
-            {
-              return;
-            }
-        }
-      else
-        {
-          if (load - cur + start > cnt)
-            {
-              return;
-            }
-        }
-    }
-}
-
-void delay(uint32_t ms) 
-{
-	do {delayMicroseconds(1000);} while ((--ms) >0);
-}
-
-// Функции UPTIME
-
-uint32_t millis()
-{
-	return (micros()/1000);
-}
-
-uint32_t micros()
-{
-	return (tls_os_get_time()*1000/HZ) *1000;
-}
 
 // Функции обслуживания GPIO прерываний
 
@@ -329,38 +265,4 @@ int analogRead(uint8_t pin) // Возвращаемая величина в ми
 		break;
 	}
 	return result;
-}
-
-// Добавлено для совместимости wiring shiftOut/shiftIn
-
-uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
-	uint8_t value = 0;
-	uint8_t i;
-
-	for (i = 0; i < 8; ++i) {
-		digitalWrite(clockPin, HIGH);
-		if (bitOrder == LSBFIRST)
-			value |= digitalRead(dataPin) << i;
-		else
-			value |= digitalRead(dataPin) << (7 - i);
-		digitalWrite(clockPin, LOW);
-	}
-	return value;
-}
-void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
-{
-	uint8_t i;
-
-	for (i = 0; i < 8; i++)  {
-		if (bitOrder == LSBFIRST) {
-			digitalWrite(dataPin, val & 1);
-			val >>= 1;
-		} else {	
-			digitalWrite(dataPin, (val & 128) != 0);
-			val <<= 1;
-		}
-			
-		digitalWrite(clockPin, HIGH);
-		digitalWrite(clockPin, LOW);		
-	}
 }

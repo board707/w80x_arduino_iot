@@ -211,7 +211,7 @@ int TwoWire::read()
         return -1;
 }
 
- void TwoWire::setClock(u32 clockFrequency)
+ void TwoWire::setClock(int clockFrequency)
  {
 
     i2c_dev->setClock(clockFrequency);

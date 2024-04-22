@@ -254,7 +254,7 @@ typedef volatile unsigned int TLS_REG;    /* Hardware register definition */
 #define HR_CLK_RST_STA			(HR_CLK_BASE_ADDR + 0x1C)
 
 /***************************************************************
- * Ã„ÃšÂ´Ã¦Ã„Â£Â¿Ã©Â¼Ã„Â´Ã¦Ã†Ã·Â¶Â¨Ã’Ã¥
+ * ÄÚ´æÄ£¿é¼Ä´æÆ÷¶¨Òå
  ***************************************************************/
 #define HR_MEM_BASE_ADDR        	(DEVICE_BASE_ADDR + 0xF00)
 #define HR_MEM_TXBUF_BASE_ADDR      (HR_MEM_BASE_ADDR + 0x00)
@@ -369,8 +369,8 @@ typedef volatile unsigned int TLS_REG;    /* Hardware register definition */
 #define SPI_TX_CHANNEL_ON      (1U << 19)
 #define SPI_TX_CHANNEL_OFF      (0U << 19)
 #define SPI_VALID_CLKS_NUM(n)      ((n) << 3)
-#define SPI_CS_LOW_      (0U << 2)
-#define SPI_CS_HIGH_      (1U << 2)
+#define SPI_CS_LOW      (0U << 2)
+#define SPI_CS_HIGH      (1U << 2)
 #define SPI_FORCE_SPI_CS_OUT      (1U << 1)
 #define SPI_START      (1U << 0)
 

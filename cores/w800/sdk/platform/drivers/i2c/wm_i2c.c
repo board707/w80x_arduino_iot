@@ -11,7 +11,7 @@
 #include "wm_include.h"
 #include "wm_i2c.h"
 
-#define I2C_FREQ_MAX			(1000000)
+#define I2C_FREQ_MAX			(400000)
 #define I2C_FREQ_MIN			(100000)
 #define I2C_WRITE				(0x80)
 #define I2C_READ				(0x00)
@@ -152,13 +152,14 @@ void tls_i2c_init(u32 freq)
 	}
 	tls_sys_clk_get(&clk);	
 	
-	div = (clk.apbclk * 1000000*3)/(16 * freq) - 3;
+	div = (clk.apbclk * 1000000)/(5 * freq) - 1;
 	tls_reg_write32(HR_I2C_PRER_LO, div & 0xff);
 	tls_reg_write32(HR_I2C_PRER_HI, (div>>8) & 0xff);
 
 	/** enable I2C | Disable Int*/
 	tls_reg_write32(HR_I2C_CTRL, I2C_CTRL_INT_DISABLE | I2C_CTRL_ENABLE);
 	tls_irq_enable(I2C_IRQn);
+	
 }
 
 /**
