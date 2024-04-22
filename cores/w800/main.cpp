@@ -14,11 +14,11 @@ void UserMain(void)
 {
 	#if (F_CPU == 240000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_240M;
-	#elif (F_CPU == 1600000000)
+	#elif (F_CPU == 160000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_160M;
 	#elif (F_CPU == 80000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_80M;
-	#elif (F_CPU == 4000000)
+	#elif (F_CPU == 40000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_40M;
 	#elif (F_CPU == 2000000)
 		uint32_t f_cpu_dir = (uint32_t)CPU_CLK_2M;

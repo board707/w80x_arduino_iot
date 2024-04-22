@@ -24,10 +24,10 @@
 #define TLS_CONFIG_ONLY_FACTORY_ATCMD                   CFG_OFF
 
 /**Host Interface&Command**/
-#define TLS_CONFIG_HOSTIF 								CFG_OFF
-#define TLS_CONFIG_AT_CMD								(CFG_ON && TLS_CONFIG_HOSTIF)
-#define TLS_CONFIG_RI_CMD								(CFG_ON && TLS_CONFIG_HOSTIF)
-#define TLS_CONFIG_RMMS									(CFG_ON && TLS_CONFIG_HOSTIF)
+#define TLS_CONFIG_HOSTIF 								CFG_ON
+#define TLS_CONFIG_AT_CMD								(CFG_OFF && TLS_CONFIG_HOSTIF)
+#define TLS_CONFIG_RI_CMD								(CFG_OFF && TLS_CONFIG_HOSTIF)
+#define TLS_CONFIG_RMMS									(CFG_OFF && TLS_CONFIG_HOSTIF)
 
 //LWIP CONFIG
 #define TLS_CONFIG_IPV4                 				CFG_ON      //must ON

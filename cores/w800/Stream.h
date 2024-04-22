@@ -16,6 +16,17 @@
 #include "Print.h"
 #include "WString.h"
 
+#ifdef __cplusplus
+extern "C"  {
+#endif
+
+#include "wm_include.h"
+#include "wiring_time.h"
+
+#ifdef __cplusplus
+}
+#endif
+
 class Stream : public Print
 {
 protected:

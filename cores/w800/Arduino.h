@@ -15,9 +15,9 @@ extern "C"  {
 }
 #endif
 
-//#ifdef __cplusplus
-//#include "HardwareSerial.h"
-//#endif
+#ifdef __cplusplus
+#include "HardwareSerial.h"
+#endif
 
 // Прототипы для DIO
 void pinMode(uint8_t pin, uint8_t mode);
