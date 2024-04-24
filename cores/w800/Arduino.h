@@ -34,6 +34,6 @@ int analogRead(uint8_t pin);
 
 void setup(void);
 void loop(void);
-
+void yield();
 
 

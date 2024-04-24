@@ -266,3 +266,4 @@ int analogRead(uint8_t pin) // Возвращаемая величина в ми
 	}
 	return result;
 }
+__attribute__((weak)) void yield() {}
