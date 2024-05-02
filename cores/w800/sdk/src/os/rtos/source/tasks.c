@@ -23,7 +23,7 @@
  * https://github.com/FreeRTOS
  *
  */
-
+__attribute__((weak)) void vApplicationTickHook(void) {}
 /* Standard includes. */
 #include <stdlib.h>
 #include <string.h>
