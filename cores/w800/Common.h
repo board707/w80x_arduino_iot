@@ -38,7 +38,7 @@ typedef enum {
 
 typedef uint8_t byte;
 typedef bool boolean;
-
+typedef unsigned int word;
 
 
 // Переопределение abs()
@@ -67,5 +67,13 @@ typedef bool boolean;
 
 #define maskSet(value, mask) ((value) |= (mask))
 #define maskClear(value, mask) ((value) &= ~(mask))
+// TODO: Add a _disable_irq() & _enable_irq() here
+#define interrupts()                { __enable_irq(); }
+#define noInterrupts()              { __disable_irq(); }
+#define word(...) makeWord(__VA_ARGS__)
+#ifdef __cplusplus
+unsigned int makeWord(unsigned int w);
+unsigned int makeWord(unsigned char h, unsigned char l);
+#endif
 
 #endif
