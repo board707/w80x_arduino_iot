@@ -266,7 +266,7 @@ int analogRead(uint8_t pin) // Возвращаемая величина в ми
 	}
 	return result;
 }
-unsigned int makeWord(unsigned int w) { return w; }
-unsigned int makeWord(unsigned char h, unsigned char l) { return (h << 8) | l; }
+uint16_t makeWord(uint16_t w) { return w; }
+uint16_t makeWord(unsigned char h, unsigned char l) { return (h << 8) | l; }
 
 __attribute__((weak)) void yield() {}

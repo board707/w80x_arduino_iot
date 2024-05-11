@@ -38,7 +38,7 @@ typedef enum {
 
 typedef uint8_t byte;
 typedef bool boolean;
-typedef unsigned int word;
+typedef uint16_t word;
 
 
 // Переопределение abs()
@@ -72,8 +72,8 @@ typedef unsigned int word;
 #define noInterrupts()              { __disable_irq(); }
 #define word(...) makeWord(__VA_ARGS__)
 #ifdef __cplusplus
-unsigned int makeWord(unsigned int w);
-unsigned int makeWord(unsigned char h, unsigned char l);
+uint16_t makeWord(uint16_t w);
+uint16_t makeWord(unsigned char h, unsigned char l);
 #endif
 
 #endif
