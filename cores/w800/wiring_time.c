@@ -53,10 +53,15 @@ void delay(uint32_t ms)
 
 uint32_t millis()
 {
-	return (micros()/1000);
+	return (tls_os_get_time()*2); // Прерывание (тик) от системного таймера случаются с частотой 500Гц (Каждые 2 мс)
 }
 
 uint32_t micros()
 {
-	return (tls_os_get_time()*1000/HZ) *1000;
+  tls_sys_clk sysclk;
+  tls_sys_clk_get (&sysclk);
+  uint32_t mil = millis();                          // Сколько мс прошло с момента запуска
+  uint32_t cur = csi_coret_get_value ();            // Текущее значение счетчика системного таймера (считает вниз)
+  uint32_t load = csi_coret_get_load ();            // Предустановленное значение от которого идет отсчет
+  return ((mil*1000)+((load-cur)/sysclk.cpuclk));   // sysclk.cpuclk - количество шагов (импульсов) в 1 мкс. На тактовой 240Мгц = 240
 }
