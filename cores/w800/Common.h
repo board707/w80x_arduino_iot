@@ -71,6 +71,7 @@ typedef uint16_t word;
 #define interrupts()                { __enable_irq(); }
 #define noInterrupts()              { __disable_irq(); }
 #define word(...) makeWord(__VA_ARGS__)
+int32_t map(int32_t, int32_t, int32_t, int32_t, int32_t);
 #ifdef __cplusplus
 uint16_t makeWord(uint16_t w);
 uint16_t makeWord(unsigned char h, unsigned char l);
