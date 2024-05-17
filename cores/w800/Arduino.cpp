@@ -275,3 +275,32 @@ int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t 
 }
 
 __attribute__((weak)) void yield() {}
+
+// Библиотечные случайные числа
+void randomSeed(uint32_t seed)
+{
+  if (seed != 0) {
+    srand(seed);
+  }
+}
+
+int32_t random()
+{
+  return ((int32_t)rand());
+}
+
+int32_t random(int32_t howbig)
+{
+  if (howbig == 0) {
+    return 0;
+  }
+  return (int32_t)rand() % howbig;
+}
+
+int32_t random(int32_t howsmall, int32_t howbig)
+{
+	if (howsmall >= howbig) return howsmall;
+	int32_t diff = howbig - howsmall;
+	return ((howsmall) + (int32_t)(random(diff)));
+}
+

@@ -75,6 +75,10 @@ int32_t map(int32_t, int32_t, int32_t, int32_t, int32_t);
 #ifdef __cplusplus
 uint16_t makeWord(uint16_t w);
 uint16_t makeWord(unsigned char h, unsigned char l);
+int32_t random();
+int32_t random(int32_t);
+int32_t random(int32_t, int32_t);
+void randomSeed(uint32_t);
 #endif
 
 #endif
