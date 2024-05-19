@@ -29,7 +29,6 @@ size_t Print::write(const uint8_t *buffer, size_t size)
     {
         n += write((const uint8_t)*buffer++);
     }
-    tls_os_time_delay(2); // Для лучшей стабильности 
     return n;
 }
 

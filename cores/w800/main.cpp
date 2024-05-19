@@ -31,6 +31,7 @@ void UserMain(void)
     while(1) 
 	{
         loop();
+        tls_os_time_delay(1);  
     }
 
 }
