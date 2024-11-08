@@ -14,7 +14,7 @@
 
 #include "Stream.h"
 
-#define USE_SEM 1
+#define USE_SEM 0 // Пока не знаю для чего здесь нужен семафор
 
 class HardwareSerial : public Stream 
 {

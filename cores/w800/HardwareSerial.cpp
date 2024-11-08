@@ -43,8 +43,10 @@ extern "C" signed short uart_rx_cb(u16 uart_no, unsigned short len,
 {
     int ret = 0;
     int _len = 0;
+    printf("rx callback... \n\r");
     do
     {
+        //По идее здесь нужно вынуть прошедшие данные из буфера FIFO        
         ret = tls_uart_read(uart_no, pbuf + *pend, 1);
         if (ret > 0)
             (*pend) = *pend + ret;
@@ -54,7 +56,7 @@ extern "C" signed short uart_rx_cb(u16 uart_no, unsigned short len,
 }
 
 
-extern "C" signed short uart0_rx_cb(unsigned short len)
+extern "C" signed short uart0_rx_cb(unsigned short len, void *p)
 {
     return uart_rx_cb(TLS_UART_0, len, _serial_buf, &_s_buf_end);
 }
@@ -124,13 +126,16 @@ void HardwareSerial::begin(unsigned long baud, int modeChoose)
     opt.paritytype = TLS_UART_PMODE_DISABLED;
     opt.stopbits = TLS_UART_ONE_STOPBITS;
     opt.baudrate = baud;
-    
+    // Переинициализация порта на дефолтное поведение задачи по обслуживанию UART_0 не влияет
     tls_uart_port_init(_uart_no, &opt, modeChoose);
     if (TLS_UART_0 == _uart_no)
     {
-        tls_uart_tx_callback_register(TLS_UART_0, uart_tx_sent_callback);
-        tls_uart_rx_callback_register(TLS_UART_0, (s16(*)(u16, void*))uart0_rx_cb, NULL);
+        // Переоткрытие порта на дефолтное поведение задачи по обслуживанию UART_0 не влияет        
         tls_uart_open(TLS_UART_0, TLS_UART_MODE_INT);
+        // Подмена дефолтных callback процедур на передачу и прием
+        tls_uart_tx_callback_register(TLS_UART_0, uart_tx_sent_callback);
+        tls_uart_rx_callback_register(TLS_UART_0, uart0_rx_cb, NULL);
+
     }
 }
 
