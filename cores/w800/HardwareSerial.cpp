@@ -29,45 +29,42 @@ int _s_buf_end = 0;
 #define TEST_DEBUG  0
 
 extern "C" {
-extern void tls_uart_tx_callback_register(u16 uart_no,
-    s16(*tx_callback) (struct tls_uart_port * port));
+extern void tls_uart_tx_callback_register(u16 uart_no,s16(*tx_callback) (struct tls_uart_port * port));
 extern s16 uart_tx_sent_callback(struct tls_uart_port *port);
 extern struct tls_uart *tls_uart_open(u32 uart_no, TLS_UART_MODE_T uart_mode);
 
 }
 
 extern "C" int sendchar(int ch);
+extern "C" int tls_uart_read(u16 uart_no, u8 * buf, u16 readsize);
 
-extern "C" signed short uart_rx_cb(u16 uart_no, unsigned short len,
-    unsigned char * pbuf, int *pend)
+s16 uart_rx_cb(u16 uart_no, unsigned short len,unsigned char * pbuf, int *pend)
 {
     int ret = 0;
-    int _len = 0;
-    printf("rx callback... \n\r");
     do
     {
-        //По идее здесь нужно вынуть прошедшие данные из буфера FIFO        
         ret = tls_uart_read(uart_no, pbuf + *pend, 1);
         if (ret > 0)
             (*pend) = *pend + ret;
-        _len += ret;
     } while (ret != 0);
 	return 0;
 }
 
 
-extern "C" signed short uart0_rx_cb(unsigned short len, void *p)
+s16 uart0_rx_cb(unsigned short len, void *p)
 {
+	_s_buf_begin = 0;
+	_s_buf_end = 0;
     return uart_rx_cb(TLS_UART_0, len, _serial_buf, &_s_buf_end);
 }
 
-int _read_byte(unsigned char *buf, int *begin, int *end)
+int _read_byte(unsigned char *buf, int begin, int end)
 {
     int c = 0;
-    if (*begin < TLS_UART_RX_BUF_SIZE
-        && *begin < *end)
+    if (begin < TLS_UART_RX_BUF_SIZE
+        && begin < end)
     {
-        c = (int)(buf[*begin]);
+        c = (int)(buf[begin]);
     }
     return c;
 }
@@ -104,8 +101,6 @@ HardwareSerial::HardwareSerial(int serial_no, bool mul_flag)
 
     if (TLS_UART_0 == _uart_no)
     {
-        _pbegin = &_s_buf_begin;
-        _pend = &_s_buf_end;
         _pbuf = _serial_buf;
     } 
 }
@@ -126,15 +121,13 @@ void HardwareSerial::begin(unsigned long baud, int modeChoose)
     opt.paritytype = TLS_UART_PMODE_DISABLED;
     opt.stopbits = TLS_UART_ONE_STOPBITS;
     opt.baudrate = baud;
-    // Переинициализация порта на дефолтное поведение задачи по обслуживанию UART_0 не влияет
+    
     tls_uart_port_init(_uart_no, &opt, modeChoose);
     if (TLS_UART_0 == _uart_no)
     {
-        // Переоткрытие порта на дефолтное поведение задачи по обслуживанию UART_0 не влияет        
-        tls_uart_open(TLS_UART_0, TLS_UART_MODE_INT);
-        // Подмена дефолтных callback процедур на передачу и прием
-        tls_uart_tx_callback_register(TLS_UART_0, uart_tx_sent_callback);
-        tls_uart_rx_callback_register(TLS_UART_0, uart0_rx_cb, NULL);
+       tls_uart_open(TLS_UART_0, TLS_UART_MODE_INT);
+       tls_uart_tx_callback_register(TLS_UART_0, uart_tx_sent_callback);
+       tls_uart_rx_callback_register(TLS_UART_0, uart0_rx_cb, NULL);
 
     }
 }
@@ -202,11 +195,11 @@ void HardwareSerial::begin(unsigned long baud)
 int HardwareSerial::read(void)
 {
     int c = 0;
-
-    c = _read_byte(_pbuf, _pbegin, _pend);
+	if (_s_buf_end==_s_buf_begin) return -1;
+    c = _read_byte(_serial_buf, _s_buf_begin, _s_buf_end);
     if (0 != c)
     {
-        (*_pbegin) = (*_pbegin) + 1;
+        (_s_buf_begin) = (_s_buf_begin) + 1;
     }
     return c;
 }
@@ -226,8 +219,8 @@ int HardwareSerial::read(void)
 int HardwareSerial::peek()
 {
      int c = 0;
-
-    c = _read_byte(_pbuf, _pbegin, _pend);
+	if (_s_buf_end==_s_buf_begin) return -1;
+    c = _read_byte(_serial_buf, _s_buf_begin, _s_buf_end);
     
     return c;
 }
@@ -248,7 +241,6 @@ size_t HardwareSerial::write(uint8_t c)
     AR_DBG();
 //    ret = tls_uart_write(_uart_no, (char *)&c, 1);
     tls_uart_write(_uart_no, (char *)&c, 1);
-
     return 1;
 }
 
@@ -266,7 +258,28 @@ size_t HardwareSerial::write(uint8_t c)
  */ 
 int HardwareSerial::available(void)
 {
-    if (*_pend >= *_pbegin)
-        return (*_pend - *_pbegin);
-    return TLS_UART_RX_BUF_SIZE - (*_pbegin - *_pend) - 1;
+	if (_s_buf_end > _s_buf_begin) 
+		return (_s_buf_end - _s_buf_begin);
+	else
+		return 0;
+    
 }
+// Добавка
+String HardwareSerial::readString(){
+	String ret;
+	ret = static_cast<Stream *> (this)->readString();
+	memset(_serial_buf, 0, _s_buf_begin-_s_buf_end);
+	_s_buf_begin = 0;
+	_s_buf_end = 0;
+	return ret;	
+}
+	
+String HardwareSerial::readStringUntil(char terminator){
+	String ret;
+	ret = static_cast<Stream *> (this)->readStringUntil(terminator);
+	memset(_serial_buf, 0, _s_buf_begin-_s_buf_end);
+	_s_buf_begin = 0;
+	_s_buf_end = 0;
+	return ret;	
+}
+

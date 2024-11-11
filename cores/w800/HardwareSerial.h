@@ -29,14 +29,14 @@ public:
     virtual int read(void);         // from Stream
     virtual int available(void);    // from Stream
     virtual int peek();             // from Stream
+    String readString();            // from Stream
+    String readStringUntil(char terminator);    // from Stream
 
     virtual size_t write(uint8_t c); // from Print
     
 private:
     int _uart_no;
     unsigned char *_pbuf;
-    int *_pbegin; 
-    int *_pend;
 #if USE_SEM
     tls_os_sem_t * _psem;
 #endif
