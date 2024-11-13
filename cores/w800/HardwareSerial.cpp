@@ -125,33 +125,10 @@ void HardwareSerial::begin(unsigned long baud, int modeChoose)
     tls_uart_port_init(_uart_no, &opt, modeChoose);
     if (TLS_UART_0 == _uart_no)
     {
-       tls_uart_open(TLS_UART_0, TLS_UART_MODE_INT);
-       tls_uart_tx_callback_register(TLS_UART_0, uart_tx_sent_callback);
        tls_uart_rx_callback_register(TLS_UART_0, uart0_rx_cb, NULL);
-
     }
 }
 
-/**
- * @brief       Sets the data rate in bits per second (baud)
- *              for serial data transmission. For communicating
- *              with the computer, use one of these rates: 300,
- *              600, 1200, 2400, 4800, 9600, 14400, 19200, 28800,
- *              38400, 57600, or 115200. You can, however, specify
- *              other rates - for example, to communicate over pins
- *              0 and 1 with a component that requires a particular
- *              baud rate.
- *
- *              An optional second argument configures the data,
- *              parity, and stop bits. The default is 8 data bits,
- *              no parity, one stop bit.
- *
- * @param[in] None
- *
- * @return      nothing 
- * 
- * @note 
- */ 
 void HardwareSerial::begin()
 {
     begin(115200);
@@ -237,9 +214,7 @@ int HardwareSerial::peek()
  */ 
 size_t HardwareSerial::write(uint8_t c)
 {
- //   int ret = 0;
     AR_DBG();
-//    ret = tls_uart_write(_uart_no, (char *)&c, 1);
     tls_uart_write(_uart_no, (char *)&c, 1);
     return 1;
 }
@@ -264,7 +239,9 @@ int HardwareSerial::available(void)
 		return 0;
     
 }
-// Добавка
+
+// From Stream
+
 String HardwareSerial::readString(){
 	String ret;
 	ret = static_cast<Stream *> (this)->readString();

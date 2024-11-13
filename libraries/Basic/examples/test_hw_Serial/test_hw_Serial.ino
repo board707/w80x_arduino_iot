@@ -6,11 +6,11 @@ extern "C" char FirmWareVer[4];
 String a;
 
 void setup() {
-	Serial.begin(115200);
-
+    Serial.begin(115200);
+    Serial.println();
+    serial.println("Setup...");
     printf(" ---> SDK: %c%x.%02x.%02x\n", FirmWareVer[0], FirmWareVer[1], FirmWareVer[2], FirmWareVer[3]);
-	printf(" ---> GetHeap:%d\n",tls_mem_get_avail_heapsize());
-	
+    printf(" ---> GetHeap:%d\n",tls_mem_get_avail_heapsize());
 }
 
 void loop() {
