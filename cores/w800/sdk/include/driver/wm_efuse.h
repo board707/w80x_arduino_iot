@@ -9,7 +9,7 @@
  */
 #ifndef WM_EFUSE_H
 #define WM_EFUSE_H
-
+#include "wm_type_def.h"
 #define TLS_EFUSE_STATUS_OK      (0)
 #define TLS_EFUSE_STATUS_EINVALID      (1)
 #define TLS_EFUSE_STATUS_EIO      (2)

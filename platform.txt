@@ -72,7 +72,7 @@ compiler.elf2bin.extra_flags=
 
 build.arch=XT804
 
-compiler.includes=-I{runtime.tools.csky.path}/csky-elfabiv2/include -I{compiler.inc.path} -I{compiler.sdk.path}/platform/inc -I{compiler.inc.path}/{build.cloud_include} -I{compiler.inc.path}/os -I{compiler.inc.path}/driver -I{compiler.sdk.path}/platform/drivers/spi -I{compiler.inc.path}/wifi -I{compiler.inc.path}/app -I{compiler.inc.path}/net -I{compiler.inc.path}/platform -I{compiler.inc.path}/bt -I{compiler.inc.path}/arch/xt804 -I{compiler.inc.path}/arch/xt804/csi_dsp -I{compiler.inc.path}/arch/xt804/csi_core 
+compiler.includes=-I{runtime.tools.csky.path}/csky-elfabiv2/include -I{compiler.inc.path} -I{compiler.sdk.path}/platform/inc -I{compiler.inc.path}/{build.cloud_include} -I{compiler.inc.path}/os -I{compiler.inc.path}/driver -I{compiler.sdk.path}/platform/drivers/spi -I{compiler.inc.path}/wifi -I{compiler.inc.path}/app -I{compiler.inc.path}/net -I{compiler.inc.path}/platform -I{compiler.inc.path}/bt -I{compiler.inc.path}/arch/xt804 -I{compiler.inc.path}/arch/xt804/csi_dsp -I{compiler.inc.path}/arch/xt804/csi_core -I{compiler.sdk.path}/src/network/lwip2.1.3/include
 compiler.libs= -Wl,--start-group  -Wl,--end-group {compiler.lib.path}/libbtcontroller.a {compiler.lib.path}/libdsp.a {compiler.lib.path}/libwlan.a 
 
 # Build image

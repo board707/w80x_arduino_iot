@@ -9,7 +9,7 @@
  */
 #ifndef TLS_WIFI_FUNC_H
 #define TLS_WIFI_FUNC_H
-
+#include "wm_type_def.h"
 /* Return Error definition*/
 /** invalid SSID */
 #define	WM_WIFI_ERR_SSID		   -1
@@ -525,8 +525,8 @@ u32 tls_wifi_get_psm_chipsleep_flag(void);
  *                      3: AP+WEBSERVER
  *                      4: bt
  *
- * @return         0£ºsuccess
- *                 -1£ºfailed
+ * @return         0\A3\BAsuccess
+ *                 -1\A3\BAfailed
  *
  * @note           None
  */
