@@ -393,7 +393,7 @@ IPAddress WiFiSTAClass::getwayIP()
 IPAddress WiFiSTAClass::dnsIP(uint8_t dns_no)
 {
     struct tls_ethif *pif = NULL;
-    unsigned int dns;
+    unsigned int dns=0;
     unsigned char * pdns_str = NULL;
     
     pif = get_if_info();
@@ -411,16 +411,16 @@ IPAddress WiFiSTAClass::dnsIP(uint8_t dns_no)
 
 char * WiFiSTAClass::hostname()
 {
-
+	return NULL;
 }
 
 bool WiFiSTAClass::hostname(char *aHostname)
 {
-
+	return false;
 }
 bool WiFiSTAClass::hostname(const char *aHostname)
 {
-
+	return false;
 }
 
 /**
@@ -475,6 +475,8 @@ char *WiFiSTAClass::statusStr()
             return (char *)"Connected";
 		case WL_IDLE_STATUS:
             return (char *)"WiFi idle";
+		default:
+			break;
     }
     return (char *)"";
 }

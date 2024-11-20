@@ -80,7 +80,6 @@ void _query_sta_info(void *ptmr, void *parg)
         tls_wifi_get_authed_sta_info(&stanum, stabuf, 1024);
         if (_total_sta_num != stanum)
         {
-            int i = 0;
             printf("sta mac:\n");
             for (unsigned int i = 0; i < stanum; i++)
             {
@@ -106,6 +105,7 @@ bool _start_os_timer_for_sta_mgmt()
     tls_os_timer_create(&_sta_monitor_timer,
         _query_sta_info, NULL, 500, true, NULL);
     tls_os_timer_start(_sta_monitor_timer);
+	return true;
 }
 
 bool _stop_os_timer_for_sta_mgmt()
@@ -116,6 +116,7 @@ bool _stop_os_timer_for_sta_mgmt()
         tls_os_timer_delete(_sta_monitor_timer);
         _sta_monitor_timer = NULL;
     }
+	return true;
 }
 
 bool _start_softap(const char *ssid, const char *passphrase,
