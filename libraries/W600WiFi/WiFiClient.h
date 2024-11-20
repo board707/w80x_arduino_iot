@@ -9,9 +9,11 @@
  */
 #ifndef _WIFI_CLIENT_H_
 #define _WIFI_CLIENT_H_
+#undef max
+#undef min
 
 #include <memory>
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "Print.h"
 #include "Client.h"
 #include "IPAddress.h"

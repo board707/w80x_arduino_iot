@@ -135,4 +135,8 @@ char * dtostrf(double number, signed char width, unsigned char prec, char *s) {
     *out = 0;
     return s;
 }
+char* utoa (unsigned int val, char *s, int radix)
+{
+  return ultoa (val, s, radix);
+}
 
