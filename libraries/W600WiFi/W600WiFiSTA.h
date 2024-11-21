@@ -14,6 +14,9 @@
 
 extern "C" {
 #include "wm_wifi.h"
+#include <wm_netif2.1.3.h>
+#include "netif/ethernetif.h"
+#include "wm_efuse.h"
 }
 
 #include "IPAddress.h"

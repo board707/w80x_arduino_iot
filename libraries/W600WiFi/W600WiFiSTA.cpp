@@ -4,31 +4,20 @@
 #include "W600WiFiSTA.h"
 #include "wiring_time.h"
 #include "W600WiFiType.h"
-#ifdef __cplusplus
-extern "C"  {
-#endif
-#include "wm_efuse.h"
-#include "wm_wifi.h"
-#include <wm_netif2.1.3.h>
-#include "netif/ethernetif.h"
-#ifdef __cplusplus
-}
-#endif
-
 
 
 #define IPV4_ADDR_STR_LEN       16
-static unsigned char _wifi_mac_str[20] = {0};
-static unsigned char _wifi_mac[6] = {0};
-static unsigned char _mask_str[IPV4_ADDR_STR_LEN] = {0};
-static unsigned char _ipv4_str[IPV4_ADDR_STR_LEN] = {0};
-static unsigned char _gw_str[IPV4_ADDR_STR_LEN] = {0};
-static unsigned char _dns1_str[IPV4_ADDR_STR_LEN] = {0};
-static unsigned char _dns2_str[IPV4_ADDR_STR_LEN] = {0};
+static u8 _wifi_mac_str[20] = {0};
+static u8 _wifi_mac[6] = {0};
+//static unsigned char _mask_str[IPV4_ADDR_STR_LEN] = {0};
+//static unsigned char _ipv4_str[IPV4_ADDR_STR_LEN] = {0};
+//static unsigned char _gw_str[IPV4_ADDR_STR_LEN] = {0};
+//static unsigned char _dns1_str[IPV4_ADDR_STR_LEN] = {0};
+//static unsigned char _dns2_str[IPV4_ADDR_STR_LEN] = {0};
 static tls_curr_bss_t _bss;
-static unsigned char _ssid[33] = {0};
-static unsigned char _bssid_str[20] = {0};
-static unsigned char _passphrase[65] = {0};
+static u8 _ssid[33] = {0};
+static u8 _bssid_str[20] = {0};
+static u8 _passphrase[65] = {0};
 
 extern WiFiMode_t WiFiMode;
 
@@ -306,6 +295,7 @@ uint8_t * WiFiSTAClass::macAddress(uint8_t *mac)
  * 
  * @note 
  */ 
+
 char * WiFiSTAClass::macAddress()
 {
     int ret = tls_get_mac_addr((u8 *)_wifi_mac);
@@ -394,7 +384,7 @@ IPAddress WiFiSTAClass::dnsIP(uint8_t dns_no)
 {
     struct tls_ethif *pif = NULL;
     unsigned int dns=0;
-    unsigned char * pdns_str = NULL;
+   // unsigned char * pdns_str = NULL;
     
     pif = get_if_info();
     if (0 == dns_no)
