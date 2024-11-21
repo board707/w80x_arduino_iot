@@ -7,13 +7,13 @@
  *
  * Copyright (c) 2019 Winner Microelectronics Co., Ltd.
  */
-#ifdef __cplusplus
+
 extern "C"
 {
 	#include "wm_type_def.h"
 	#include "wm_socket.h"
 }
-#endif
+
 
 #include "wiring_time.h"
 #include "debug.h"
@@ -25,6 +25,7 @@ extern "C"
 #include "lwip/igmp.h"
 #include "lwip/mem.h"
 #include "UdpContext.h"
+
 
 template<>
 WiFiUDP* SList<WiFiUDP>::_s_first = 0;
@@ -161,6 +162,9 @@ uint8_t WiFiUDP::beginMulticast(IPAddress interfaceAddr, IPAddress multicast, ui
  * @note       This function can only be successfully called after parsePacket().
  *             available() inherits from the Stream utility class.
  */
+extern "C" void _delay(int us); 
+extern "C" void myDelay(uint32_t ms){_delay(ms*1000);}
+
 int WiFiUDP::available() {
     int result = 0;
 
@@ -171,7 +175,7 @@ int WiFiUDP::available() {
     if (!result) {
         // yielding here will not make more data "available",
         // but it will prevent the system from going into WDT reset
-        delay(4);
+        myDelay(4);
     }
 
     return result;
@@ -362,7 +366,7 @@ int WiFiUDP::parsePacket()
         return 0;
 
     if (!_ctx->next()) {
-        delay(4);
+        myDelay(4);
         return 0;
     }
 

@@ -14,6 +14,8 @@ extern "C"  {
 
 
 WiFiMode_t WiFiMode = WIFI_OFF;
+extern "C" void _delay(int us); 
+extern "C" void _myDelay(uint32_t ms){_delay(ms*1000);}
 
 static bool _dns_lookup_pending = false;
 
@@ -56,7 +58,7 @@ void wifi_dns_found_callback(const char *name, const ip_addr_t *ipaddr, void *ca
     if(ipaddr) {
         (*reinterpret_cast<IPAddress*>(callback_arg)) = ipaddr->addr;
     }
-   	//delay(1); // resume the hostByName function
+   	_myDelay(1); // resume the hostByName function
 	//tls_os_time_delay(1000);
 }
 
@@ -71,6 +73,8 @@ void wifi_dns_found_callback(const char *name, const ip_addr_t *ipaddr, void *ca
  * 
  * @note 
  */ 
+ 
+
 int WiFiGenericClass::hostByName(const char* aHostname, IPAddress& aResult, uint32_t timeout_ms)
 {
     ip_addr_t addr;
@@ -86,8 +90,7 @@ int WiFiGenericClass::hostByName(const char* aHostname, IPAddress& aResult, uint
         aResult = addr.addr;
     } else if(err == ERR_INPROGRESS) {
         _dns_lookup_pending = true;
-        //delay(timeout_ms);
-		//	tls_os_time_delay(1000*timeout_ms);
+        _myDelay(timeout_ms);
         _dns_lookup_pending = false;
         // will return here when dns_found_callback fires
         if(aResult != 0) {
