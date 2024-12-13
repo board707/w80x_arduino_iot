@@ -14,7 +14,6 @@
 #include "W600WiFiSTA.h"
 #include "W600WiFiScan.h"
 #include "W600WiFiAP.h"
-#include "W600WiFiOneshot.h"
 #include "WiFiClient.h"
 #include "WiFiUDP.h"
 
@@ -22,8 +21,7 @@ class WiFiClass
     : public WiFiGenericClass,
       public WiFiSTAClass,
       public WiFiScanClass,
-      public WiFiAPClass,
-      public WiFiOneshotClass
+      public WiFiAPClass
 {
 public:
     

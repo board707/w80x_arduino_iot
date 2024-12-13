@@ -67,8 +67,8 @@ public:
 
     void unref()
     {
-        if(this != 0) {
-            WIFI_DBG(":ur %d\r\n", _refcnt);
+        if(this != NULL) {
+            //WIFI_DBG(":ur %d\r\n", _refcnt);
             if(--_refcnt == 0) {
                 delete this;
             }
@@ -217,7 +217,7 @@ public:
 
         size_t max_size = _rx_buf->len - _rx_buf_offset;
         size = (size < max_size) ? size : max_size;
-        WIFI_DBG(":urd %d, %d, %d\r\n", size, _rx_buf->len, _rx_buf_offset);
+        //WIFI_DBG(":urd %d, %d, %d\r\n", size, _rx_buf->len, _rx_buf_offset);
 
         memcpy(dst, reinterpret_cast<char*>(_rx_buf->payload) + _rx_buf_offset, size);
         _consume(size);
@@ -250,7 +250,7 @@ public:
         }
         if (!_tx_buf_head || _tx_buf_head->tot_len < _tx_buf_offset + size)
         {
-            WIFI_DBG("failed _reserve");
+            //WIFI_DBG("failed _reserve");
             return 0;
         }
 
@@ -279,7 +279,7 @@ public:
         size_t data_size = _tx_buf_offset;
         pbuf* tx_copy = pbuf_alloc(PBUF_TRANSPORT, data_size, PBUF_RAM);
         if(!tx_copy){
-            WIFI_DBG("failed pbuf_alloc");
+            //WIFI_DBG("failed pbuf_alloc");
         }
         else{
             uint8_t* dst = reinterpret_cast<uint8_t*>(tx_copy->payload);
@@ -312,7 +312,7 @@ public:
 #endif
         err_t err = udp_sendto(_pcb, tx_copy, addr, port);
         if (err != ERR_OK) {
-            WIFI_DBG(":ust rc=%d\r\n", (int) err);
+            //WIFI_DBG(":ust rc=%d\r\n", (int) err);
         }
 #ifdef LWIP_MULTICAST_TX_OPTIONS
         _pcb->ttl = old_ttl;
@@ -375,12 +375,12 @@ private:
         {
             // there is some unread data
             // chain the new pbuf to the existing one
-            WIFI_DBG(":urch %d, %d\r\n", _rx_buf->tot_len, pb->tot_len);
+            //WIFI_DBG(":urch %d, %d\r\n", _rx_buf->tot_len, pb->tot_len);
             pbuf_cat(_rx_buf, pb);
         }
         else
         {
-            WIFI_DBG(":urn %d\r\n", pb->tot_len);
+            //WIFI_DBG(":urn %d\r\n", pb->tot_len);
             _first_buf_taken = false;
             _rx_buf = pb;
             _rx_buf_offset = 0;

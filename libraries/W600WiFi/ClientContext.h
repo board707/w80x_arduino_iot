@@ -48,7 +48,7 @@ public:
     err_t abort()
     {
         if(_pcb) {
-            WIFI_DBG(":abort\r\n");
+            //WIFI_DBG(":abort\r\n");
             tcp_arg(_pcb, NULL);
             tcp_sent(_pcb, NULL);
             tcp_recv(_pcb, NULL);
@@ -64,7 +64,7 @@ public:
     {
         err_t err = ERR_OK;
         if(_pcb) {
-            WIFI_DBG(":close\r\n");
+            //WIFI_DBG(":close\r\n");
             tcp_arg(_pcb, NULL);
             tcp_sent(_pcb, NULL);
             tcp_recv(_pcb, NULL);
@@ -72,7 +72,7 @@ public:
             tcp_poll(_pcb, NULL, 0);
             err = tcp_close(_pcb);
             if(err != ERR_OK) {
-                WIFI_DBG(":tc err %d\r\n", (int) err);
+                //WIFI_DBG(":tc err %d\r\n", (int) err);
                 tcp_abort(_pcb);
                 err = ERR_ABRT;
             }
@@ -99,19 +99,19 @@ public:
     void ref()
     {
         ++_refcnt;
-        WIFI_DBG(":ref %d\r\n", _refcnt);
+        //WIFI_DBG(":ref %d\r\n", _refcnt);
     }
 
     void unref()
     {
-        WIFI_DBG(":ur %d\r\n", _refcnt);
+        //WIFI_DBG(":ur %d\r\n", _refcnt);
         if(--_refcnt == 0) {
             discard_received();
             close();
             if(_discard_cb) {
                 _discard_cb(_discard_cb_arg, this);
             }
-            WIFI_DBG(":del\r\n");
+            //WIFI_DBG(":del\r\n");
             delete this;
         }
     }
@@ -128,11 +128,11 @@ public:
         delay(_timeout_ms);
         _connect_pending = 0;
         if (!_pcb) {
-            WIFI_DBG(":cabrt\r\n");
+            //WIFI_DBG(":cabrt\r\n");
             return 0;
         }
         if (state() != ESTABLISHED) {
-            WIFI_DBG(":ctmo\r\n");
+            //WIFI_DBG(":ctmo\r\n");
             abort();
             return 0;
         }
@@ -239,12 +239,12 @@ public:
         size_t max_size = _rx_buf->tot_len - _rx_buf_offset;
         size = (size < max_size) ? size : max_size;
 
-        WIFI_DBG(":rd %d, %d, %d\r\n", size, _rx_buf->tot_len, _rx_buf_offset);
+        //WIFI_DBG(":rd %d, %d, %d\r\n", size, _rx_buf->tot_len, _rx_buf_offset);
         size_t size_read = 0;
         while(size) {
             size_t buf_size = _rx_buf->len - _rx_buf_offset;
             size_t copy_size = (size < buf_size) ? size : buf_size;
-            WIFI_DBG(":rdi %d, %d\r\n", buf_size, copy_size);
+            //WIFI_DBG(":rdi %d, %d\r\n", buf_size, copy_size);
             memcpy(dst, reinterpret_cast<char*>(_rx_buf->payload) + _rx_buf_offset, copy_size);
             dst += copy_size;
             _consume(copy_size);
@@ -272,10 +272,10 @@ public:
         size_t max_size = _rx_buf->tot_len - _rx_buf_offset;
         size = (size < max_size) ? size : max_size;
 
-        WIFI_DBG(":pd %d, %d, %d\r\n", size, _rx_buf->tot_len, _rx_buf_offset);
+        //WIFI_DBG(":pd %d, %d, %d\r\n", size, _rx_buf->tot_len, _rx_buf_offset);
         size_t buf_size = _rx_buf->len - _rx_buf_offset;
         size_t copy_size = (size < buf_size) ? size : buf_size;
-        WIFI_DBG(":rpi %d, %d\r\n", buf_size, copy_size);
+        //WIFI_DBG(":rpi %d, %d\r\n", buf_size, copy_size);
         memcpy(dst, reinterpret_cast<char*>(_rx_buf->payload) + _rx_buf_offset, copy_size);
         return copy_size;
     }
@@ -400,7 +400,7 @@ protected:
 
             if (!_datasource->available() || _is_timeout() || state() == CLOSED) {
                 if (_is_timeout()) {
-                    WIFI_DBG(":wtmo\r\n");
+                    //WIFI_DBG(":wtmo\r\n");
                 }
                 delete _datasource;
                 _datasource = nullptr;
@@ -426,7 +426,7 @@ protected:
             can_send = 0;
         }
         size_t will_send = (can_send < left) ? can_send : left;
-        WIFI_DBG(":wr %d %d %d\r\n", will_send, left, _written);
+        //WIFI_DBG(":wr %d %d %d\r\n", will_send, left, _written);
         bool need_output = false;
         while( will_send && _datasource) {
             size_t next_chunk =
@@ -437,7 +437,7 @@ protected:
                 break;
             }
             err_t err = tcp_write(_pcb, buf, next_chunk, TCP_WRITE_FLAG_COPY);
-            WIFI_DBG(":wrc %d %d %d\r\n", next_chunk, will_send, (int) err);
+            //WIFI_DBG(":wrc %d %d %d\r\n", next_chunk, will_send, (int) err);
             if (err == ERR_OK) {
                 _datasource->release_buffer(buf, next_chunk);
                 _written += next_chunk;
@@ -468,7 +468,7 @@ protected:
     {
         (void) pcb;
         (void) len;
-        WIFI_DBG(":ack %d\r\n", len);
+        //WIFI_DBG(":ack %d\r\n", len);
         _write_some_from_cb();
         return ERR_OK;
     }
@@ -479,7 +479,7 @@ protected:
         if(left > 0) {
             _rx_buf_offset += size;
         } else if(!_rx_buf->next) {
-            WIFI_DBG(":c0 %d, %d\r\n", size, _rx_buf->tot_len);
+            //WIFI_DBG(":c0 %d, %d\r\n", size, _rx_buf->tot_len);
             if(_pcb) {
                 tcp_recved(_pcb, _rx_buf->len);
             }
@@ -487,7 +487,7 @@ protected:
             _rx_buf = 0;
             _rx_buf_offset = 0;
         } else {
-            WIFI_DBG(":c %d, %d, %d\r\n", size, _rx_buf->len, _rx_buf->tot_len);
+            //WIFI_DBG(":c %d, %d, %d\r\n", size, _rx_buf->len, _rx_buf->tot_len);
             auto head = _rx_buf;
             _rx_buf = _rx_buf->next;
             _rx_buf_offset = 0;
@@ -504,17 +504,17 @@ protected:
         (void) pcb;
         (void) err;
         if(pb == 0) { // connection closed
-            WIFI_DBG(":rcl\r\n");
+            //WIFI_DBG(":rcl\r\n");
             _notify_error();
             abort();
             return ERR_ABRT;
         }
 
         if(_rx_buf) {
-            WIFI_DBG(":rch %d, %d\r\n", _rx_buf->tot_len, pb->tot_len);
+            //WIFI_DBG(":rch %d, %d\r\n", _rx_buf->tot_len, pb->tot_len);
             pbuf_cat(_rx_buf, pb);
         } else {
-            WIFI_DBG(":rn %d\r\n", pb->tot_len);
+            //WIFI_DBG(":rn %d\r\n", pb->tot_len);
             _rx_buf = pb;
             _rx_buf_offset = 0;
         }
@@ -524,7 +524,7 @@ protected:
     void _error(err_t err)
     {
         (void) err;
-        WIFI_DBG(":er %d 0x%08x\r\n", (int) err, (uint32_t) _datasource);
+        //WIFI_DBG(":er %d 0x%08x\r\n", (int) err, (uint32_t) _datasource);
         tcp_arg(_pcb, NULL);
         tcp_sent(_pcb, NULL);
         tcp_recv(_pcb, NULL);
