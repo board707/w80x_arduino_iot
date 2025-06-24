@@ -65,8 +65,8 @@ void setup()
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init( &disp_drv );
     /*Change the following line to your display resolution*/
-    disp_drv.hor_res = screenWidth;
-    disp_drv.ver_res = screenHeight;
+    disp_drv.hor_res = _width;
+    disp_drv.ver_res = _height;
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.draw_buf = &draw_buf;
     lv_disp_drv_register( &disp_drv );

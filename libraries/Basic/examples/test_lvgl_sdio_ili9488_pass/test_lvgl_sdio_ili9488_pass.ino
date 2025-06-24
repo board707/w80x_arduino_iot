@@ -9,29 +9,32 @@
   Connect your TFT display like this:
   TFT_VCC   to power
   TFT_GND   to ground
-  TFT_CS    PB7
+  TFT_CS    PB10
   TFT_LED   to power 
-  TFT_SCL   PB15   
-  TFT_MOSI  PB17   
+  TFT_SCL   PB6   
+  TFT_MOSI  PB7   
   TFT_DC    PB8
   TFT_RST   PB9
 */
 
 #include "Arduino.h"
-#include "ILI9341.h"
+#include "ILI9488_SDIO.h"
 #include "lvgl.h"
+
 
 static const uint16_t screenWidth  = LCD_WIDTH;
 static const uint16_t screenHeight = LCD_HEIGHT;
 
 extern "C" void vApplicationTickHook(void);		// Перехват системных тиков FreeRTOS
+extern "C" u32 tls_mem_get_avail_heapsize(void);
+extern "C" char FirmWareVer[4];
 
 static lv_disp_draw_buf_t draw_buf ;
 static lv_color_t buf[ screenWidth * screenHeight / 10 ];
 
 #define TFT_DC  PB8
 #define TFT_RST PB9
-#define TFT_CS	PB7
+#define TFT_CS	PB10
 
 /* Display flushing */
 void my_disp_flush( lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p )
@@ -47,16 +50,17 @@ void vApplicationTickHook(void)
 
 void setup()
 {
-    //Serial.begin( 115200 ); /* prepare for possible serial debug */
-    
-    //String LVGL_Arduino = "Hello Arduino! ";
-    //LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
+    Serial.begin( 115200 ); /* prepare for possible serial debug */
+    Serial.println();
 
-    //Serial.println( LVGL_Arduino );
-    //Serial.println( "I am LVGL_Arduino" );
+    String LVGL_Arduino = "Hello Arduino! ";
+    LVGL_Arduino += String("V") + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
+
+    Serial.println( LVGL_Arduino );
+    Serial.println( "I am LVGL_Arduino" );
     
     Lcd_Init(TFT_DC, TFT_RST,TFT_CS);          /* TFT init. */
-    Lcd_Orientation(1); /* Landscape orientation, flipped */
+    Lcd_Orientation(3); /* Landscape orientation, flipped */
  
 	lv_init();
     lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * screenHeight/10 );
@@ -65,33 +69,32 @@ void setup()
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init( &disp_drv );
     /*Change the following line to your display resolution*/
-    disp_drv.hor_res = _width;
-    disp_drv.ver_res = _height;
+    disp_drv.hor_res =_width;// screenWidth;
+    disp_drv.ver_res = _height;//screenHeight;
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.draw_buf = &draw_buf;
     lv_disp_drv_register( &disp_drv );
 
-    //Serial.println( "Setup done" );
+    Serial.println( "Setup done" );
+	  Serial.print("Heap size:");Serial.println(tls_mem_get_avail_heapsize());
     
     lv_obj_t * label1 = lv_label_create(lv_scr_act());
     lv_label_set_long_mode(label1, LV_LABEL_LONG_WRAP);     /*Break the long lines*/
     lv_label_set_recolor(label1, true);                      /*Enable re-coloring by commands in the text*/
     lv_label_set_text(label1, "#0000ff Re-color# #ff00ff words# #ff0000 of a# label, align the lines to the center "
                       "and wrap long text automatically.");
-    lv_obj_set_width(label1, 150);  /*Set smaller width to make the lines wrap*/
+    lv_obj_set_width(label1, 320);  /*Set smaller width to make the lines wrap*/
     lv_obj_set_style_text_align(label1, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_align(label1, LV_ALIGN_CENTER, 0, -40);
-
     lv_obj_t * label2 = lv_label_create(lv_scr_act());
     lv_label_set_long_mode(label2, LV_LABEL_LONG_SCROLL_CIRCULAR);     /*Circular scroll*/
-    lv_obj_set_width(label2, 240);
+    lv_obj_set_width(label2, 380);
     lv_label_set_text(label2, "Hello World! This is LVGL 8.4 with w80x_arduino_iot project from RUSSIA. Based on W800-SDK ver 1.00.10");
     lv_obj_align(label2, LV_ALIGN_CENTER, 0, 40);
-
 }
 
 void loop()
 {
     lv_timer_handler(); /* let the GUI do its work */
-    delay( 5 );
+	
 }
