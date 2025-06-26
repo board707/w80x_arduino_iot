@@ -18,7 +18,7 @@
 */
 
 #include "Arduino.h"
-#include "ILI9488_SDIO.h"
+#include "ILI9486_SDIO.h"
 #include "lvgl.h"
 
 
